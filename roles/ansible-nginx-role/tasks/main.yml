@@ -1,0 +1,16 @@
+- name: Instalar NGINX
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Config reverse proxy
+  ansible.builtin.template:
+    src: nginx-revproxy.conf.j2
+    dest: /etc/nginx/conf.d/reverse-proxy.conf
+  notify: Reload nginx
+
+- name: Asegurar NGINX habilitado y arrancado
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true

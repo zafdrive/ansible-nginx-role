@@ -1,0 +1,2 @@
+nginx_revproxy_listen_port: 80
+nginx_revproxy_upstream: "http://127.0.0.1:8080"

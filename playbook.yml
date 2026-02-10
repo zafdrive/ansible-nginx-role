@@ -1,0 +1,8 @@
+- name: Instalar NGINX reverse proxy
+  hosts: proxy
+  become: true
+  roles:
+    - role: ansible-nginx-role
+      vars:
+        nginx_revproxy_listen_port: 80
+        nginx_revproxy_upstream: "http://127.0.0.1:8080"
