@@ -14,17 +14,10 @@ Professional Ansible role to install and configure **NGINX** as a lightweight re
 
 ## ▢ Overview
 
-▢ Purpose: Install and configure NGINX as a simple reverse proxy
-▢ Output: /etc/nginx/conf.d/reverse-proxy.conf
+▢ Purpose:  Install and configure NGINX as a simple reverse proxy
+▢ Output:   /etc/nginx/conf.d/reverse-proxy.conf
 ▢ Behavior: Reload NGINX automatically when configuration changes
-
-text
-
----
-
-## ▢ Repository layout
-
-```text
+▢ Repository layout
 .
 ├─ inventory.ini
 ├─ playbook.yml
@@ -38,23 +31,11 @@ text
       │  └─ main.yml
       └─ templates/
          └─ nginx-revproxy.conf.j2
-
-▢ Features
-
-    Installs NGINX using the OS package manager.
-
-    Deploys a reverse proxy server block using a Jinja2 template.
-
-    Ensures NGINX is enabled and running.
-
-    Reloads NGINX on configuration changes (via handler).
-
 ▢ Requirements
-
 text
-▢ Ansible:  Installed on the control machine
-▢ Access:   SSH connectivity to the target host(s)
-▢ Privs:    sudo/become privileges on the target host(s)
+▢ Ansible: Installed on the control machine
+▢ Access:  SSH connectivity to the target host(s)
+▢ Privs:   sudo/become privileges on the target host(s)
 
 ▢ Configuration
 Variables
@@ -92,26 +73,12 @@ ansible-playbook -i inventory.ini playbook.yml
 ▢ Example scenario
 
 text
-▢ App listens on:   127.0.0.1:8080
-▢ NGINX exposes:    http://<server-ip>:80
-▢ Proxy behavior:   /  ->  http://127.0.0.1:8080
+▢ App listens on:  127.0.0.1:8080
+▢ NGINX exposes:   http://<server-ip>:80
+▢ Proxy behavior:  /  ->  http://127.0.0.1:8080
 
 ▢ Notes & hardening ideas
 
     For production, consider TLS (Let’s Encrypt), rate limiting, and separate server blocks per vhost.
 
-    Validate configuration before reload (e.g., nginx -t) if you extend the role.
-
-▢ License
-
-Choose one:
-
-    MIT
-
-    Apache-2.0
-
-    GPL-3.0
-
-text
-
-If you tell me whether you want **MIT** or **Apache-2.0**, I’ll tailor the license section and add a small “Contributing” box consistent with the style.
+    If you extend the role, consider validating before reload (e.g., nginx -t).
