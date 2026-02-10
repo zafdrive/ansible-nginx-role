@@ -12,12 +12,18 @@ Professional Ansible role to install and configure **NGINX** as a lightweight re
 
 ---
 
-## ▢ Overview
+## Overview
 
 ▢ Purpose:  Install and configure NGINX as a simple reverse proxy
 ▢ Output:   /etc/nginx/conf.d/reverse-proxy.conf
 ▢ Behavior: Reload NGINX automatically when configuration changes
-▢ Repository layout
+
+    [!NOTE]
+    This role ships a minimal HTTP reverse proxy configuration. Extend it if you need TLS, multiple vhosts, or extra hardening. [web:64]
+
+Repository layout
+
+text
 .
 ├─ inventory.ini
 ├─ playbook.yml
@@ -31,18 +37,34 @@ Professional Ansible role to install and configure **NGINX** as a lightweight re
       │  └─ main.yml
       └─ templates/
          └─ nginx-revproxy.conf.j2
-▢ Requirements
+
+Features
+
+    Installs NGINX using the OS package manager.
+
+    Deploys a reverse proxy server block using a Jinja2 template.
+
+    Ensures NGINX is enabled and running.
+
+    Reloads NGINX on configuration changes (via handler).
+
+Requirements
+
 text
 ▢ Ansible: Installed on the control machine
 ▢ Access:  SSH connectivity to the target host(s)
 ▢ Privs:   sudo/become privileges on the target host(s)
 
-▢ Configuration
+Configuration
 Variables
 Variable	Default	Description
 nginx_revproxy_listen_port	80	Port NGINX will listen on
 nginx_revproxy_upstream	http://127.0.0.1:8080	Upstream backend to proxy to
-▢ Quick start
+
+    [!TIP]
+    Keep nginx_revproxy_upstream on 127.0.0.1 if your app runs on the same server (common for single-node setups). [web:64]
+
+Quick start
 1) Inventory
 
 Update inventory.ini with your host and SSH user:
@@ -70,15 +92,22 @@ text
 bash
 ansible-playbook -i inventory.ini playbook.yml
 
-▢ Example scenario
+Example scenario
 
 text
 ▢ App listens on:  127.0.0.1:8080
 ▢ NGINX exposes:   http://<server-ip>:80
 ▢ Proxy behavior:  /  ->  http://127.0.0.1:8080
 
-▢ Notes & hardening ideas
+    [!IMPORTANT]
+    This role requires privilege escalation (become: true) to write under /etc/nginx and manage the nginx service. [web:64]
 
-    For production, consider TLS (Let’s Encrypt), rate limiting, and separate server blocks per vhost.
+Notes & hardening ideas
+
+    Add TLS (Let’s Encrypt), rate limiting, and separate server blocks per vhost for production.
 
     If you extend the role, consider validating before reload (e.g., nginx -t).
+
+    [!WARNING]
+    Always test configuration changes on a non-production host first to avoid locking yourself out or breaking routing. [web:64]
+
